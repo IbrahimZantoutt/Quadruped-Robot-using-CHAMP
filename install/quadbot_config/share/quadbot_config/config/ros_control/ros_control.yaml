@@ -39,15 +39,15 @@ joint_group_effort_controller:
     # and are the most likely cause of a flailing/unstable robot in Gazebo. Start
     # by lowering p (e.g. p: 20-40) and retune from there.
     gains:
-      lf_hip_joint        : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      lf_upper_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      lf_lower_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rf_hip_joint        : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rf_upper_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rf_lower_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      lh_hip_joint        : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      lh_upper_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      lh_lower_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rh_hip_joint        : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rh_upper_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
-      rh_lower_leg_joint  : {p: 100.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lf_hip_joint        : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lf_upper_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lf_lower_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rf_hip_joint        : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rf_upper_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rf_lower_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lh_hip_joint        : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lh_upper_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      lh_lower_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rh_hip_joint        : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rh_upper_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
+      rh_lower_leg_joint  : {p: 80.0, i: 0.2, d: 1.0, i_clamp: 2.5, ff_velocity_scale: 1.0}
