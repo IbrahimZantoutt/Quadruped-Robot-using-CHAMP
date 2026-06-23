@@ -31,7 +31,6 @@ _colcon_prefix_chain_powershell_source_script "/home/ibrahim/TF2Sample/install/l
 _colcon_prefix_chain_powershell_source_script "/home/ibrahim/RobotArm/install/local_setup.ps1"
 _colcon_prefix_chain_powershell_source_script "/home/ibrahim/RobotArmExpanded/install/local_setup.ps1"
 _colcon_prefix_chain_powershell_source_script "/home/ibrahim/MoveItArm/install/local_setup.ps1"
-_colcon_prefix_chain_powershell_source_script "/home/ibrahim/Quadbot/install/local_setup.ps1"
 
 # source this prefix
 $env:COLCON_CURRENT_PREFIX=(Split-Path $PSCommandPath -Parent)

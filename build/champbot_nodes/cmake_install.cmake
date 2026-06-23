@@ -59,6 +59,14 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/champbot_nodes" TYPE DIRECTORY FILES
+    "/home/ibrahim/ChampQuadbot/src/champbot_nodes/launch"
+    "/home/ibrahim/ChampQuadbot/src/champbot_nodes/urdf"
+    "/home/ibrahim/ChampQuadbot/src/champbot_nodes/rviz"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/ibrahim/ChampQuadbot/build/champbot_nodes/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/champbot_nodes")
 endif()
 
