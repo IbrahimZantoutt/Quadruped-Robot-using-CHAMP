@@ -173,19 +173,14 @@
     </joint>
     <link name="${prefix}_foot_link">
       <visual>
-        <origin xyz="0 0 -0.0175" rpy="0 0 0"/>
-        <geometry><box size="0.045 0.05 0.035"/></geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${foot_rad}"/></geometry>
         <material name="foot_grey"/>
       </visual>
       <collision>
-        <origin xyz="0 0 -0.0175" rpy="0 0 0"/>
-        <geometry><box size="0.045 0.05 0.035"/></geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${foot_rad}"/></geometry>
       </collision>
-      <inertial>
-        <origin xyz="0 0 -0.0175" rpy="0 0 0"/>
-        <mass value="0.05"/>
-        <xacro:box_inertia m="0.05" x="0.045" y="0.05" z="0.035"/>
-      </inertial>
     </link>
     <gazebo reference="${prefix}_foot_link">
       <mu1>1.2</mu1>

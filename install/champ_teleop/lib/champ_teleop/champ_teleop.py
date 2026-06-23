@@ -3,6 +3,7 @@
 
 from __future__ import print_function
 
+import math
 import select
 import sys
 import termios
@@ -160,11 +161,7 @@ CTRL-C to quit
         y = 0
         z = 0
         th = 0
-        roll = 0
-        pitch = 0
-        yaw = 0
         status = 0
-        cmd_attempts = 0
 
         try:
             print(self.msg)
@@ -178,32 +175,38 @@ CTRL-C to quit
                     y = self.velocityBindings[key][1]
                     z = self.velocityBindings[key][2]
                     th = self.velocityBindings[key][3]
-                    
-                    if cmd_attempts > 1:
-                        twist = Twist()
-                        twist.linear.x = x *self.speed
-                        twist.linear.y = y * self.speed
-                        twist.linear.z = z * self.speed
-                        twist.angular.x = 0.0
-                        twist.angular.y = 0.0
-                        twist.angular.z = th * self.turn
-                        self.velocity_publisher.publish(twist)
 
-                    cmd_attempts += 1
-                    
                 elif key in self.speedBindings.keys():
                     self.speed = self.speed * self.speedBindings[key][0]
                     self.turn = self.turn * self.speedBindings[key][1]
-                    
+
                     print(self.vels(self.speed, self.turn))
                     if (status == 14):
                         print(self.msg)
                     status = (status + 1) % 15
 
+                elif key == '':
+                    # No key pressed this cycle: keep republishing the last
+                    # command so the controller doesn't time out. Don't change it.
+                    pass
+
                 else:
-                    cmd_attempts = 0
+                    # Any other key (incl. 'k') is an explicit stop.
+                    x = 0
+                    y = 0
+                    z = 0
+                    th = 0
                     if (key == '\x03'):
                         break
+
+                twist = Twist()
+                twist.linear.x = x * self.speed
+                twist.linear.y = y * self.speed
+                twist.linear.z = z * self.speed
+                twist.angular.x = 0.0
+                twist.angular.y = 0.0
+                twist.angular.z = th * self.turn
+                self.velocity_publisher.publish(twist)
 
         except Exception as e:
             print(e)
