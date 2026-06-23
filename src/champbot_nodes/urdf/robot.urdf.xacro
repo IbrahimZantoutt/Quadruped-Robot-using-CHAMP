@@ -22,8 +22,8 @@
   <xacro:property name="leg_rad"   value="0.018"/>
   <xacro:property name="foot_rad"  value="0.025"/>
 
-  <xacro:property name="hip_x" value="0.14"/>
-  <xacro:property name="hip_y" value="0.09"/>
+  <xacro:property name="hip_x" value="0.175"/>
+  <xacro:property name="hip_y" value="0.105"/>
   <xacro:property name="hip_z" value="-0.02"/>
 
   <xacro:property name="j_eff" value="40.0"/>
@@ -187,7 +187,7 @@
       <mu2>1.2</mu2>
       <kp>100000.0</kp>
       <kd>2.0</kd>
-      <minDepth>0.002</minDepth>
+      <minDepth>0.001</minDepth>
     </gazebo>
   </xacro:macro>
 
