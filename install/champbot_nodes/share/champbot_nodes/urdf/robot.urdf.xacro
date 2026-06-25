@@ -26,8 +26,8 @@
   <xacro:property name="hip_y" value="0.105"/>
   <xacro:property name="hip_z" value="-0.02"/>
 
-  <xacro:property name="j_eff" value="40.0"/>
-  <xacro:property name="j_vel" value="12.0"/>
+  <xacro:property name="j_eff" value="25.0"/>
+  <xacro:property name="j_vel" value="1.5"/>
 
   <!-- ============================ materials ============================= -->
   <material name="body_blue"><color rgba="0.15 0.35 0.85 1"/></material>
@@ -185,8 +185,8 @@
     <gazebo reference="${prefix}_foot_link">
       <mu1>1.2</mu1>
       <mu2>1.2</mu2>
-      <kp>100000.0</kp>
-      <kd>2.0</kd>
+      <kp>10000.0</kp>
+      <kd>3.0</kd>
       <minDepth>0.001</minDepth>
     </gazebo>
   </xacro:macro>
