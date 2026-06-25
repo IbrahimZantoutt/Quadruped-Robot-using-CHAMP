@@ -20,7 +20,7 @@
   <xacro:property name="upper_len" value="0.14"/>
   <xacro:property name="lower_len" value="0.14"/>
   <xacro:property name="leg_rad"   value="0.018"/>
-  <xacro:property name="foot_rad"  value="0.018"/>
+  <xacro:property name="foot_rad"  value="0.013"/>
 
   <xacro:property name="hip_x" value="0.175"/>
   <xacro:property name="hip_y" value="0.105"/>
