@@ -18,4 +18,4 @@
       # base_link height above ground when standing. Legs reach ~0.28 m fully
       # extended, so 0.18 leaves a comfortable knee bend. Lower this if the
       # robot stands on near-straight legs; raise it if the knees over-fold.
-      nominal_height : 0.18
+      nominal_height : 0.22

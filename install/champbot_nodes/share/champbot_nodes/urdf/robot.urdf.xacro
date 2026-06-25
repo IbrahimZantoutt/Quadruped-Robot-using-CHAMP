@@ -11,7 +11,7 @@
 <robot name="quadbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- ============================ dimensions ============================ -->
-  <xacro:property name="body_len"  value="0.40"/>
+  <xacro:property name="body_len"  value="0.50"/>
   <xacro:property name="body_wid"  value="0.26"/>
   <xacro:property name="body_hgt"  value="0.08"/>
   <xacro:property name="body_mass" value="3.0"/>
