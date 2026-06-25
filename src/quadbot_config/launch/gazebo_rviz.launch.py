@@ -1,0 +1,111 @@
+# One-shot simulation bringup: Gazebo (world + robot + CHAMP controller) plus
+# RViz preloaded with the quadbot.rviz config so you can see the robot model,
+# TF, laser scan, the SLAM map, and (once Nav2 is added) costmaps and paths.
+#
+#   ros2 launch quadbot_config gazebo_rviz.launch.py
+#
+# By default it also starts slam_toolbox (slam:=true) so a map is built live and
+# the `map` frame exists for RViz's fixed frame. Turn it off with slam:=false.
+# Nav2 is intentionally NOT started here -- add it later; the costmap/path
+# displays in the RViz config will populate automatically once it runs.
+
+import os
+
+import launch_ros
+from ament_index_python.packages import get_package_share_directory
+
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
+
+def generate_launch_description():
+
+    config_pkg_share = launch_ros.substitutions.FindPackageShare(
+        package="quadbot_config"
+    ).find("quadbot_config")
+
+    default_rviz_path = os.path.join(config_pkg_share, "rviz", "quadbot.rviz")
+    default_slam_params = os.path.join(
+        config_pkg_share, "config", "autonomy", "slam.yaml"
+    )
+
+    use_sim_time = LaunchConfiguration("use_sim_time")
+
+    declare_use_sim_time = DeclareLaunchArgument(
+        "use_sim_time", default_value="true",
+        description="Use simulation (Gazebo) clock",
+    )
+    declare_gui = DeclareLaunchArgument(
+        "gui", default_value="true", description="Launch the Gazebo client (GUI)"
+    )
+    declare_rviz = DeclareLaunchArgument(
+        "rviz", default_value="true", description="Launch RViz"
+    )
+    declare_rviz_config = DeclareLaunchArgument(
+        "rviz_config", default_value=default_rviz_path,
+        description="Absolute path to the RViz config file",
+    )
+    declare_slam = DeclareLaunchArgument(
+        "slam", default_value="true",
+        description="Also start slam_toolbox to build a map live",
+    )
+    declare_slam_params = DeclareLaunchArgument(
+        "slam_params_file", default_value=default_slam_params,
+        description="slam_toolbox params file",
+    )
+
+    # Gazebo + robot + CHAMP controller (this is the launch the world is wired into)
+    gazebo_ld = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("quadbot_config"),
+                "launch",
+                "gazebo.launch.py",
+            )
+        ),
+        launch_arguments={
+            "use_sim_time": use_sim_time,
+            "gui": LaunchConfiguration("gui"),
+        }.items(),
+    )
+
+    # slam_toolbox (online async) -- gives the `map` frame + occupancy grid
+    slam_ld = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [FindPackageShare("slam_toolbox"), "launch", "online_async_launch.py"]
+            )
+        ),
+        condition=IfCondition(LaunchConfiguration("slam")),
+        launch_arguments={
+            "use_sim_time": use_sim_time,
+            "slam_params_file": LaunchConfiguration("slam_params_file"),
+        }.items(),
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="screen",
+        arguments=["-d", LaunchConfiguration("rviz_config")],
+        parameters=[{"use_sim_time": use_sim_time}],
+        condition=IfCondition(LaunchConfiguration("rviz")),
+    )
+
+    return LaunchDescription([
+        declare_use_sim_time,
+        declare_gui,
+        declare_rviz,
+        declare_rviz_config,
+        declare_slam,
+        declare_slam_params,
+        gazebo_ld,
+        slam_ld,
+        rviz_node,
+    ])

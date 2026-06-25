@@ -46,6 +46,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/quadbot_config" TYPE DIRECTORY FILES
     "/home/ibrahim/ChampQuadbot/src/quadbot_config/launch"
     "/home/ibrahim/ChampQuadbot/src/quadbot_config/config"
+    "/home/ibrahim/ChampQuadbot/src/quadbot_config/rviz"
     )
 endif()
 

@@ -19,7 +19,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 
 def generate_launch_description():
@@ -37,6 +37,7 @@ def generate_launch_description():
     gait_config = os.path.join(config_pkg_share, "config/gait/gait.yaml")
     links_config = os.path.join(config_pkg_share, "config/links/links.yaml")
     default_model_path = os.path.join(descr_pkg_share, "urdf/robot.urdf.xacro")
+    default_world_path = os.path.join(descr_pkg_share, "worlds/world.sdf")
 
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time", default_value="true",
@@ -53,6 +54,10 @@ def generate_launch_description():
     )
     declare_gui = DeclareLaunchArgument(
         "gui", default_value="true", description="Use gui"
+    )
+    declare_world = DeclareLaunchArgument(
+        "world", default_value=default_world_path,
+        description="Absolute path to the Gazebo world (.sdf/.world) file",
     )
     declare_world_init_x = DeclareLaunchArgument("world_init_x", default_value="0.0")
     declare_world_init_y = DeclareLaunchArgument("world_init_y", default_value="0.0")
@@ -99,11 +104,20 @@ def generate_launch_description():
             "use_sim_time": use_sim_time,
             "robot_name": LaunchConfiguration("robot_name"),
             "lite": LaunchConfiguration("lite"),
+            "world": LaunchConfiguration("world"),
             "world_init_x": LaunchConfiguration("world_init_x"),
             "world_init_y": LaunchConfiguration("world_init_y"),
             "world_init_z": LaunchConfiguration("world_init_z"),
             "world_init_heading": LaunchConfiguration("world_init_heading"),
             "gui": LaunchConfiguration("gui"),
+            # champ_gazebo gates gzclient on `headless` (a Python bool string),
+            # not `gui`. Translate gui:=false -> headless:=True (capitalized so
+            # champ's `PythonExpression(['not ', headless])` stays valid) so that
+            # `gui:=false` actually runs headless (no gzclient window). This is
+            # the reliable way to skip the flaky Gazebo GUI on WSL2.
+            "headless": PythonExpression(
+                ["'True' if '", LaunchConfiguration("gui"), "' == 'false' else 'False'"]
+            ),
             "close_loop_odom": "true",
         }.items(),
     )
@@ -114,6 +128,7 @@ def generate_launch_description():
         declare_robot_name,
         declare_lite,
         declare_gui,
+        declare_world,
         declare_world_init_x,
         declare_world_init_y,
         declare_world_init_z,

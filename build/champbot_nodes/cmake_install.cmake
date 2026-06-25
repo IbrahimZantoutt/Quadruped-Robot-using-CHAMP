@@ -63,6 +63,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/ibrahim/ChampQuadbot/src/champbot_nodes/launch"
     "/home/ibrahim/ChampQuadbot/src/champbot_nodes/urdf"
     "/home/ibrahim/ChampQuadbot/src/champbot_nodes/rviz"
+    "/home/ibrahim/ChampQuadbot/src/champbot_nodes/worlds"
     )
 endif()
 
