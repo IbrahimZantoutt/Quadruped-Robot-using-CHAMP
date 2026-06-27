@@ -1,14 +1,5 @@
-# Like gazebo.launch.py but for an OPEN, empty world and with the lidar's blue
-# scan rays hidden. Two differences from gazebo.launch.py:
-#   1. No world is passed, so champ_gazebo uses its built-in empty default.world
-#      (flat ground plane, nothing else) -- the robot spawns "in the open".
-#   2. The robot description is robot_no_lidar_viz.urdf.xacro, a thin wrapper that
-#      sets lidar_visualize:=false, so the Gazebo lidar's blue rays are not drawn.
-#
-#   ros2 launch quadbot_config gazebo_open.launch.py
-#
-# The existing gazebo.launch.py / gazebo_rviz.launch.py are untouched and still
-# load world.sdf with the rays visible.
+# gazebo.launch.py variant: empty world (no world.sdf -> champ_gazebo default
+# ground plane) and lidar rays hidden (uses robot_no_lidar_viz.urdf.xacro).
 
 import os
 
@@ -89,8 +80,7 @@ def generate_launch_description():
         }.items(),
     )
 
-    # NOTE: no `world` argument -> champ_gazebo falls back to its built-in empty
-    # default.world, i.e. the robot spawns in the open.
+    # no `world` arg -> champ_gazebo uses its empty default.world
     gazebo_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(

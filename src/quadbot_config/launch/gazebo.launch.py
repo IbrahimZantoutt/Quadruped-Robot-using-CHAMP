@@ -1,15 +1,6 @@
-# Modeled on chvmp go2_config/launch/gazebo.launch.py (velodyne/world overrides
-# stripped). Spawns quadbot in Gazebo Classic and starts the CHAMP controller +
-# ros2_control effort controllers.
-#
-# It includes:
-#   champ_bringup/bringup.launch.py  -> robot_state_publisher + champ_base nodes
-#   champ_gazebo/gazebo.launch.py    -> gzserver/gzclient, spawn_entity, and
-#                                       `ros2 control load_controller` for
-#                                       joint_states_controller + joint_group_effort_controller
-#
-# The ros2_control controller params (ros_control.yaml) are loaded by the
-# gazebo_ros2_control plugin embedded in the robot.urdf.xacro, not here.
+# Spawns quadbot in Gazebo Classic (world.sdf) and starts the CHAMP controller +
+# effort controllers. Includes champ_bringup (state pub + champ_base) and
+# champ_gazebo (gzserver/gzclient + spawn + controllers).
 
 import os
 
@@ -61,7 +52,7 @@ def generate_launch_description():
     )
     declare_world_init_x = DeclareLaunchArgument("world_init_x", default_value="0.0")
     declare_world_init_y = DeclareLaunchArgument("world_init_y", default_value="0.0")
-    # spawn slightly above standing height (nominal_height 0.18) so it settles
+    # spawn slightly above standing height so it settles onto the ground
     declare_world_init_z = DeclareLaunchArgument("world_init_z", default_value="0.25")
     declare_world_init_heading = DeclareLaunchArgument(
         "world_init_heading", default_value="0.0"
@@ -110,11 +101,8 @@ def generate_launch_description():
             "world_init_z": LaunchConfiguration("world_init_z"),
             "world_init_heading": LaunchConfiguration("world_init_heading"),
             "gui": LaunchConfiguration("gui"),
-            # champ_gazebo gates gzclient on `headless` (a Python bool string),
-            # not `gui`. Translate gui:=false -> headless:=True (capitalized so
-            # champ's `PythonExpression(['not ', headless])` stays valid) so that
-            # `gui:=false` actually runs headless (no gzclient window). This is
-            # the reliable way to skip the flaky Gazebo GUI on WSL2.
+            # gui:=false -> headless:=True (champ gates gzclient on `headless`,
+            # which must be capitalized True/False for its PythonExpression).
             "headless": PythonExpression(
                 ["'True' if '", LaunchConfiguration("gui"), "' == 'false' else 'False'"]
             ),

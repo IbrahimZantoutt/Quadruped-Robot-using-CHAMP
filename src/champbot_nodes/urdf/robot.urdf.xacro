@@ -10,9 +10,7 @@
      Bright yellow markers sit on each joint, aligned with its rotation axis. -->
 <robot name="quadbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Whether the Gazebo lidar draws its blue scan rays. Overridable: a wrapper
-       URDF (or xacro arg) can set this false to hide the rays. Defaults true so
-       existing launches are unchanged. -->
+  <!-- lidar blue scan rays on/off; a wrapper URDF can override to false -->
   <xacro:property name="lidar_visualize" default="true"/>
 
   <!-- ============================ dimensions ============================ -->

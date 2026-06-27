@@ -1,20 +1,6 @@
-# Nav2 navigation stack for quadbot, running on top of the live SLAM map.
-#
-# This brings up ONLY the Nav2 navigation servers (controller, planner, smoother,
-# behaviors, bt_navigator, waypoint_follower, velocity_smoother) -- NOT a
-# map_server or AMCL. slam_toolbox (started by gazebo_rviz.launch.py) already
-# provides the `map` frame, the map->odom transform, and the /map grid, so Nav2
-# plans on the map being built live.
-#
-# cmd_vel path: controller_server -> /cmd_vel_nav -> velocity_smoother -> /cmd_vel,
-# and CHAMP's quadruped_controller subscribes to /cmd_vel, so a Nav2 goal drives
-# the robot directly. Params (DWB limits, costmaps, footprint) live in
-# config/autonomy/navigation.yaml, tuned to the quadbot gait.
-#
-# Usually started via gazebo_rviz.launch.py with nav2:=true. To run standalone
-# (e.g. SLAM already up in another terminal):
-#   ros2 launch quadbot_config nav2.launch.py
-# Then in RViz use the "Nav2 Goal" tool to click a destination.
+# Nav2 navigation servers on top of the live SLAM map (no map_server/AMCL).
+# cmd_vel: controller -> /cmd_vel_nav -> velocity_smoother -> /cmd_vel (CHAMP).
+# Params: config/autonomy/navigation.yaml. Usually started by gazebo_rviz nav2:=true.
 
 import os
 

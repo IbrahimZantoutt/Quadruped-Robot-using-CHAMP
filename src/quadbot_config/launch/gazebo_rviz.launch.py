@@ -1,15 +1,5 @@
-# One-shot simulation bringup: Gazebo (world + robot + CHAMP controller) plus
-# RViz preloaded with the quadbot.rviz config so you can see the robot model,
-# TF, laser scan, the SLAM map, and (once Nav2 is added) costmaps and paths.
-#
-#   ros2 launch quadbot_config gazebo_rviz.launch.py
-#
-# By default it also starts slam_toolbox (slam:=true) so a map is built live and
-# the `map` frame exists for RViz's fixed frame. Turn it off with slam:=false.
-# With nav2:=true (default) it also brings up the Nav2 stack a few seconds later,
-# so you can use RViz's "Nav2 Goal" tool to click a destination and the robot
-# drives there. The costmap/path displays in the RViz config populate once Nav2
-# is up. Turn Nav2 off with nav2:=false.
+# Full sim bringup: Gazebo + CHAMP + RViz, plus slam_toolbox (slam:=true) and
+# Nav2 (nav2:=true). Args: gui, rviz, slam, nav2.
 
 import os
 
@@ -66,7 +56,6 @@ def generate_launch_description():
         description="Bring up the Nav2 stack (click a goal in RViz to navigate)",
     )
 
-    # Gazebo + robot + CHAMP controller (this is the launch the world is wired into)
     gazebo_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -81,7 +70,6 @@ def generate_launch_description():
         }.items(),
     )
 
-    # slam_toolbox (online async) -- gives the `map` frame + occupancy grid
     slam_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(
@@ -105,9 +93,7 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("rviz")),
     )
 
-    # Nav2 navigation servers, fed by the live SLAM map. Delayed ~10s so gzserver,
-    # CHAMP TF (map->odom->base_footprint->base_link), /scan and /map are all
-    # flowing before the costmaps initialize -- otherwise they come up dirty.
+    # Delayed 10s so TF/scan/map are flowing before the Nav2 costmaps init.
     nav2_ld = TimerAction(
         period=10.0,
         actions=[
